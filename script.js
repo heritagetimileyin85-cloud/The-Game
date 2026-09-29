@@ -9,32 +9,53 @@ const resultBox =  document.querySelector("#result-box");
 const result = document.querySelector("#result");
 const reason = document.querySelector("#reason");
 
-function play(playerChoice){
-    const computerChoice = choices[Math.floor(Math.random()*3)];
-    document.querySelector("#you").textContent = icons[playerChoice];
-    document.querySelector("#computer").textContent = icons[computerChoice];
-    if (playerChoice === computerChoice){
-        draws++;
-        result.textContent = "Draw";
-        reason.textContent = "You both picked " + playerChoice;
-    }else if (beats[playerChoice] === computerChoice){
-        wins++;
-        result.textContent = "You Win";
-         reason.textContent = playerChoice + " beats " + computerChoice;
-         resultBox.classList.add("Win"); 
-    }else{
-        losses++;
-         result.textContent = "You lose";
-         reason.textContent = computerChoice + " beats " + playerChoice;
-         resultBox.classList.add("lose"); 
+
+function play(playerChoice) {
+  const countdownEl = document.querySelector("#countdown");
+  const steps = ["Rock...", "Paper...", "Scissors...", "Shoot!"];
+  let i = 0;
+
+  countdownEl.textContent = steps[i];
+
+  const interval = setInterval(function () {
+    i++;
+    if (i < steps.length) {
+      countdownEl.textContent = steps[i];
+    } else {
+      clearInterval(interval);
+      countdownEl.textContent = "";
+      showResult(playerChoice);
     }
-
-    document.querySelector ("#wins").textContent = wins;
-     document.querySelector ("#losses").textContent = losses;
-      document.querySelector ("#draws").textContent = draws;
-
+  }, 350);
 }
 
+function showResult(playerChoice) {
+  const computerChoice = choices[Math.floor(Math.random() * 3)];
+
+  document.querySelector("#you").textContent = icons[playerChoice];
+  document.querySelector("#computer").textContent = icons[computerChoice];
+  resultBox.className = "result-box";
+
+  if (playerChoice === computerChoice) {
+    draws++;
+    result.textContent = "Draw";
+    reason.textContent = "You both picked " + playerChoice;
+  } else if (beats[playerChoice] === computerChoice) {
+    wins++;
+    result.textContent = "You win";
+    reason.textContent = playerChoice + " beats " + computerChoice;
+    resultBox.classList.add("win");
+  } else {
+    losses++;
+    result.textContent = "You lose";
+    reason.textContent = computerChoice + " beats " + playerChoice;
+    resultBox.classList.add("lose");
+  }
+
+  document.querySelector("#wins").textContent = wins;
+  document.querySelector("#losses").textContent = losses;
+  document.querySelector("#draws").textContent = draws;
+}
 document.querySelector("#rock").addEventListener("click", function (){
     play("Rock");
 })

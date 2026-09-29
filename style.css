@@ -65,6 +65,13 @@ button:hover{
     background: #6366f1;
 }
 
+#countdown {
+  font-size: 15px;
+  color: #122378;
+  margin: 0;
+  height: 18px;
+}
+
 .versus{
     display: flex;
     align-items: center;
